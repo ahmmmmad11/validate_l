@@ -4,7 +4,7 @@
   "description": "Lite weight validation package inspired from laravel validation.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha --recursive --exit"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/ahmmmmad11/validate_l#readme",
   "devDependencies": {
+    "chai": "^4.3.7",
     "jest": "^29.4.3"
   }
 }
