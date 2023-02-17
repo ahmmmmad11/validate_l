@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ahmmmmad11/validate_l/issues"
   },
-  "homepage": "https://github.com/ahmmmmad11/validate_l#readme"
+  "homepage": "https://github.com/ahmmmmad11/validate_l#readme",
+  "devDependencies": {
+    "jest": "^29.4.3"
+  }
 }
