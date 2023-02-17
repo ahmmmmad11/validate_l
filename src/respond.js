@@ -1,8 +1,8 @@
 const path = require('path')
 const messages = require("./messages");
 
-//detrmine if a field has an aliace
-//if so return the aliace
+//determine if a field has an alliance
+//if so return the alliance
 const field_name = (item, user_fields) => {
     if (item in user_fields){
         return user_fields[item]
@@ -19,7 +19,7 @@ module.exports = (conf, rule, item, extra = {}) => {
         localization = null
     }
 
-    //take validation messages from the built in messages.js file inside the package
+    //take validation messages from the built-in messages.js file inside the package
     conf.response[item] = messages[rule].replace(':item', field_name(item, conf.fields_aliace));
 
     //take validation messages from the localization files
