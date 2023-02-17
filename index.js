@@ -5,17 +5,17 @@ const check = require("./src/check");
 
 module.exports = {
     validate: (req, res, items, fields={}, messages={}) => {
-        //initialize config 
-        req.lang = 'ar'
+        //initialize config
+
         const conf = {
             response: {},
-            fields_aliace: fields,
+            fields_alliace: fields,
             message_aliace: messages,
             lang: req.lang ?? 'en'
         }
     
-        for (item in items) {
-            for (term of items[item]) {
+        for (let item in items) {
+            for (let term of items[item]) {
                 if (!check(req, res, items, conf)) break;
             }
         }
