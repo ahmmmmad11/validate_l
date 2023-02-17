@@ -1,10 +1,10 @@
 module.exports = {
     required: ':item is required.',
     email: ':item is not a valid email address.',
-    confiremd: ':item confrimation is not matched.',
+    confirmed: ':item confirmation is not matched.',
     string: ':item should be of string type.',
     number: ':item should be of number type.',
-    boolean: ':item should be of boolen type.',
+    boolean: ':item should be of boolean type.',
     date: ':item should be a valid date.',
     min: ':item should be more than :length.',
     max: ':item should be less than :length.',
