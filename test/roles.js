@@ -118,11 +118,11 @@ describe("Testing with chai", () => {
         expect(min(conf, req, 'number', 10)).to.equal(false);
     });
 
-    it('should return true if item value is less than the minimum', () => {
+    it('should return true if item value is less than the maximum', () => {
         expect(max(conf, req, 'number', 10)).to.equal(true);
     });
 
-    it('should return false if item value is more than the minimum', () => {
+    it('should return false if item value is more than the maximum', () => {
         expect(max(conf, req, 'number', 3)).to.equal(false);
     });
 
@@ -131,7 +131,7 @@ describe("Testing with chai", () => {
     });
 
     it('should return false if item value is in the list of values', () => {
-        expect(notin(conf, req, 'string', ['Jane', 'Doe'])).to.equal(false);
+        expect(notin(conf, req, 'name', ['Jane', 'Doe'])).to.equal(false);
     });
 
     it('should return true if item value is confirmed', () => {

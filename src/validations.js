@@ -21,7 +21,7 @@ module.exports = {
     },
 
     alphanumeric: (conf, req, item) => {
-        const pattern = /[A-z0-9]/
+        const pattern = /[A-z+0-9]/
         if (! pattern.test(String(req.body[item]))) {
             respond(conf, getFuncName(), item)
             return false;
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     confirmed: (conf, req, item) => {
-        if (!req.body[item + '_confirmation'] || req.body[item + '_confirmation'] != req.body[item] ) {
+        if (!req.body[item + '_confirmation'] || req.body[item + '_confirmation'] !== req.body[item] ) {
             respond(conf, getFuncName(), item);
             return false;
         }
@@ -87,25 +87,29 @@ module.exports = {
     },
 
     in: (conf, req, item, list, roles = []) => {
-        let ListArray = list.split(',')
-        if (!req[item] in ListArray) {
+        let listArray = typeof(list) === 'string' ? list.split(',') : list;
+
+        if (!listArray.find((element) => element === req.body[item])) {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
     notin: (conf, req, item, list, roles = []) => {
-        let ListArray = list.split(',')
-        if (req[item] in ListArray) {
+        let listArray = typeof(list) === 'string' ? list.split(',') : list;
+
+        if (listArray.find((element) => element === req.body[item])) {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
     number: (conf, req, item) => {
-        if (String(Number(req.body[item])) == 'NaN') {
+        if (String(Number(req.body[item])) === 'NaN') {
             respond(conf, getFuncName(), item);
             return false;
         }
@@ -113,18 +117,34 @@ module.exports = {
     },
 
     max: (conf, req, item, len, roles) => {
-        if ('number' in roles && Number(req.body[item]) > len) {
+        //if the type is a number we will compare the value
+        if (typeof(req.body[item]) === 'number' && req.body[item] > len) {
             respond(conf, getFuncName(), item);
             return false;
         }
+
+        //if the type is a string we will compare the length
+        if (typeof(req.body[item]) === 'string' && req.body[item].length > len ) {
+            respond(conf, getFuncName(), item);
+            return false;
+        }
+
         return true;
     },
 
     min: (conf, req, item, len, roles) => {
-        if ('number' in roles && Number(req.body[item]) < len) {
+        //if the type is a number we will compare the value
+        if (typeof(req.body[item]) === 'number' && req.body[item] < len) {
             respond(conf, getFuncName(), item);
             return false;
         }
+
+        //if the type is a string we will compare the length
+        if (typeof(req.body[item]) === 'string' && req.body[item].length < len ) {
+            respond(conf, getFuncName(), item);
+            return false;
+        }
+
         return true;
     },
 
@@ -138,7 +158,7 @@ module.exports = {
     },
 
     required: (conf, req, item) => {
-        if (!(item in req.body) || req.body[item] == '') {
+        if (!(item in req.body) || req.body[item] === '') {
             respond(conf, getFuncName(), item)
             return false;
         }
