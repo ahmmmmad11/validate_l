@@ -1,0 +1,24 @@
+{
+  "name": "validate_l",
+  "version": "1.0.0",
+  "description": "Lite weight validation package inspired from laravel validation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmmmmad11/validate_l.git"
+  },
+  "keywords": [
+    "express",
+    "validation",
+    "validator"
+  ],
+  "author": "Ahmed Mohamed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmmmmad11/validate_l/issues"
+  },
+  "homepage": "https://github.com/ahmmmmad11/validate_l#readme"
+}
