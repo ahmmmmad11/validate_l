@@ -71,12 +71,12 @@ module.exports = {
     },
 
     date: (conf, req, item) => {
-        if (!Date.parse(req['item'])) {
+        if (isNaN(Date.parse(req.body[item]))) {
             respond(conf, getFuncName(), item);
             return false;
         }
 
-        return true; 
+        return true;
     },
 
     email: (conf, req, item) => {
