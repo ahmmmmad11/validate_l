@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const {required, string, number, boolean, date, array, url, min, max, notin, email, confirmed, alpha, alphanumeric} = require('../src/validations');
+const {required, string, number, boolean, date, array, url, min, max, notin, email, confirmed, alpha, alphanumeric,
+    after, before
+} = require('../src/validations');
 
 describe("Testing with chai", () => {
     const req = {
@@ -92,6 +94,22 @@ describe("Testing with chai", () => {
 
     it('should return false if item is not date', () => {
         expect(date(conf, req, 'string')).to.equal(false);
+    });
+
+    it('should return true if item is date after other date', () => {
+        expect(after(conf, req, 'date', '2020/02/20')).to.equal(true);
+    });
+
+    it('should return true if item is date not after other date', () => {
+        expect(after(conf, req, 'date', '2020/01/01')).to.equal(false);
+    });
+
+    it('should return true if item is date before other date', () => {
+        expect(before(conf, req, 'date', '2020/01/01')).to.equal(true);
+    });
+
+    it('should return true if item is date not before other date', () => {
+        expect(before(conf, req, 'date', '2020/05/01')).to.equal(false);
     });
 
     it('should return true if item is array', () => {
