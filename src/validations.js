@@ -6,13 +6,13 @@ module.exports = {
     alpha: (item) => {
         const pattern = /[A-z]/;
 
-        return pattern.test(String(item));
+        return pattern.test(item);
     },
 
     alphanumeric: (item) => {
         const pattern = /^[A-z].*[0-9].*/;
 
-        return pattern.test(String(item));
+        return pattern.test(item);
     },
 
     array: (item) => {
@@ -88,7 +88,8 @@ module.exports = {
     },
 
     required: (item) => {
-        return !(!(item in req.body) || item === '');
+        if (item == null) return false;
+        return item !== '';
     },
 
     start_with: (item, prefix, roles = []) => {
