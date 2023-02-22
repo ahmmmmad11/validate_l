@@ -1,5 +1,5 @@
 module.exports = {
-    after: (item, compared, roles = []) => {
+    after: (item, compared) => {
         return Date.parse(item) <= Date.parse(compared);
     },
 
@@ -19,7 +19,7 @@ module.exports = {
         return Array.isArray((item));
     },
 
-    before: (item, compared, roles = []) => {
+    before: (item, compared) => {
         return Date.parse(item) >= Date.parse(compared);
     },
 
@@ -36,22 +36,22 @@ module.exports = {
     },
 
     email: (item) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         return pattern.test(String(item).toLowerCase());
     },
 
-    end_with: (item, suffix, roles = []) => {
+    end_with: (item, suffix) => {
         return item.endsWith(suffix);
     },
 
-    in: (item, list, roles = []) => {
+    in: (item, list) => {
         let listArray = typeof(list) === 'string' ? list.split(',') : list;
 
         return listArray.find((element) => element === item);
     },
 
-    notin: (item, list, roles = []) => {
+    notin: (item, list) => {
         let listArray = typeof(list) === 'string' ? list.split(',') : list;
 
         return !listArray.find((element) => element === item);
@@ -61,7 +61,7 @@ module.exports = {
         return String(Number(item)) !== 'NaN';
     },
 
-    max: (item, len, roles) => {
+    max: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item > len) {
 
@@ -72,7 +72,7 @@ module.exports = {
         return !(typeof (item) === 'string' && item.length > len);
     },
 
-    min: (item, len, roles) => {
+    min: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item < len) {
 
@@ -83,7 +83,7 @@ module.exports = {
         return !(typeof (item) === 'string' && item.length < len);
     },
 
-    regx: (item, pattern, roles = []) => {
+    regx: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
 
@@ -92,7 +92,7 @@ module.exports = {
         return item !== '';
     },
 
-    start_with: (item, prefix, roles = []) => {
+    start_with: (item, prefix) => {
         return item.startsWith(prefix);
     },
 
@@ -101,19 +101,16 @@ module.exports = {
     },
 
     url: (item) => {
-        const isValidUrl = urlString => {
-            let url;
 
-            try { 
-                  url =new URL(urlString); 
-            }
-            catch(e){ 
-              return false; 
-            }
+        let url;
 
-            return url.protocol === "http:" || url.protocol === "https:";
+        try {
+              url =new URL(item);
+        }
+        catch(e){
+          return false;
         }
 
-        return isValidUrl(item);
+        return url.protocol === "http:" || url.protocol === "https:";
     },
 };
