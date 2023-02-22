@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, notin, email, confirmed, alpha, alphanumeric,
-    after, before
+    after, before, start_with, end_with
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -158,5 +158,21 @@ describe("Testing with chai", () => {
 
     it('should return false if item value is not confirmed', () => {
         expect(confirmed(conf, req, 'string')).to.equal(false);
+    });
+
+    it('should return true if item value is start with the specified', () => {
+        expect(start_with(conf, req, 'string', 'st')).to.equal(true);
+    });
+
+    it('should return false if item value is not start with the specified', () => {
+        expect(start_with(conf, req, 'string', 'tn')).to.equal(false);
+    });
+
+    it('should return true if item value is end with the specified', () => {
+        expect(end_with(conf, req, 'string', 'ng')).to.equal(true);
+    });
+
+    it('should return false if item value is not end with the specified', () => {
+        expect(end_with(conf, req, 'string', 'tn')).to.equal(false);
     });
 });

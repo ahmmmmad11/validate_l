@@ -91,7 +91,7 @@ module.exports = {
     },
 
     end_with: (conf, req, item, suffix, roles = []) => {
-        if (! req[item].endsWith(suffix)) {
+        if (! req.body[item].endsWith(suffix)) {
             respond(conf, getFuncName(), item)
             return false;
         }
@@ -181,7 +181,7 @@ module.exports = {
     },
 
     start_with: (conf, req, item, prefix, roles = []) => {
-        if (! req[item].endsWith(prefix)) {
+        if (! req.body[item].startsWith(prefix)) {
             respond(conf, getFuncName(), item)
             return false;
         }
