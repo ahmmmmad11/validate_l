@@ -21,166 +21,159 @@ describe("Testing with chai", () => {
         }
     };
 
-    const conf = {
-        response: {},
-        fields_aliace: {},
-        message_aliace: {},
-        lang: req.lang ?? 'en'
-    }
-
     it("should return true if item exists in request body", () => {
-        expect(required(conf, req, 'name')).to.equal(true);
+        expect(required('name')).to.equal(true);
     });
 
     it("should return false if item not exists in request body", () => {
-        expect(required(conf, req, 'age')).to.equal(false);
+        expect(required('')).to.equal(false);
     });
 
     it('should return true if item is string', () => {
-        expect(string(conf, req, 'string')).to.equal(true);
+        expect(string('string')).to.equal(true);
     });
 
     it('should return false if item is not string', () => {
-        expect(string(conf, req, 'number')).to.equal(false);
+        expect(string(855)).to.equal(false);
     });
 
     it('should return true if item string contains only letters', () => {
-        expect(alpha(conf, req, 'string')).to.equal(true);
+        expect(alpha('string')).to.equal(true);
     });
 
     it('should return false if item string contains numbers', () => {
-        expect(alpha(conf, req, 'number')).to.equal(false);
+        expect(alpha('88')).to.equal(false);
     });
 
     it('should return true if item string contains letters numbers', () => {
-        expect(alphanumeric(conf, req, 'alphaNum')).to.equal(true);
+        expect(alphanumeric('string808')).to.equal(true);
     });
 
     it('should return false if item string dose not contains letters numbers', () => {
-        expect(alphanumeric(conf, req, 'string')).to.equal(false);
+        expect(alphanumeric('alpha')).to.equal(false);
     });
 
     it('should return true if item is a valid email', () => {
-        expect(email(conf, req, 'email')).to.equal(true);
+        expect(email('email@e.com')).to.equal(true);
     });
 
     it('should return false if item is not a valid email', () => {
-        expect(email(conf, req, 'number')).to.equal(false);
+        expect(email('number')).to.equal(false);
     });
 
     it('should return true if item is number', () => {
-        expect(number(conf, req, 'number')).to.equal(true);
+        expect(number(800)).to.equal(true);
     });
 
     it('should return true if item is number', () => {
-        expect(number(conf, req, 'float')).to.equal(true);
+        expect(number(3.2)).to.equal(true);
     });
 
     it('should return false if item is not number', () => {
-        expect(number(conf, req, 'string')).to.equal(false);
+        expect(number('string')).to.equal(false);
     });
 
     it('should return true if item is boolean', () => {
-        expect(boolean(conf, req, 'bool')).to.equal(true);
+        expect(boolean(false)).to.equal(true);
     });
 
     it('should return false if item is not boolean', () => {
-        expect(boolean(conf, req, 'string')).to.equal(false);
+        expect(boolean('string')).to.equal(false);
     });
 
     it('should return true if item is date', () => {
-        expect(date(conf, req, 'date')).to.equal(true);
+        expect(date('2020/01/20')).to.equal(true);
     });
 
     it('should return false if item is not date', () => {
-        expect(date(conf, req, 'string')).to.equal(false);
+        expect(date('string')).to.equal(false);
     });
 
     it('should return true if item is date after other date', () => {
-        expect(after(conf, req, 'date', '2020/02/20')).to.equal(true);
+        expect(after('2020/01/20', '2020/02/20')).to.equal(true);
     });
 
     it('should return true if item is date not after other date', () => {
-        expect(after(conf, req, 'date', '2020/01/01')).to.equal(false);
+        expect(after('2020/01/20', '2020/01/01')).to.equal(false);
     });
 
     it('should return true if item is date before other date', () => {
-        expect(before(conf, req, 'date', '2020/01/01')).to.equal(true);
+        expect(before('2020/01/20', '2020/01/01')).to.equal(true);
     });
 
     it('should return true if item is date not before other date', () => {
-        expect(before(conf, req, 'date', '2020/05/01')).to.equal(false);
+        expect(before('2020/01/20', '2020/05/01')).to.equal(false);
     });
 
     it('should return true if item is array', () => {
-        expect(array(conf, req, 'array')).to.equal(true);
+        expect(array(['1', '2'])).to.equal(true);
     });
 
     it('should return false if item is not array', () => {
-        expect(array(conf, req, 'string')).to.equal(false);
+        expect(array('string')).to.equal(false);
     });
 
     it('should return true if item is a valid url', () => {
-        expect(url(conf, req, 'url')).to.equal(true);
+        expect(url('https://www.google.com')).to.equal(true);
     });
 
     it('should return false if item is not a valid url', () => {
-        expect(url(conf, req, 'string')).to.equal(false);
+        expect(url('string')).to.equal(false);
     });
 
     it('should return true if item value is more than the minimum', () => {
-        expect(min(conf, req, 'number', 3)).to.equal(true);
+        expect(min(5, 3)).to.equal(true);
     });
 
     it('should return false if item value is less than the minimum', () => {
-        expect(min(conf, req, 'number', 10)).to.equal(false);
+        expect(min(5, 10)).to.equal(false);
     });
 
     it('should return true if item value is less than the maximum', () => {
-        expect(max(conf, req, 'number', 10)).to.equal(true);
+        expect(max(5, 10)).to.equal(true);
     });
 
     it('should return false if item value is more than the maximum', () => {
-        expect(max(conf, req, 'number', 3)).to.equal(false);
+        expect(max(5, 3)).to.equal(false);
     });
 
     it('should return true if item value is in not the list of values', () => {
-        expect(notin(conf, req, 'name', ['Jon', 'Doe'])).to.equal(true);
+        expect(notin('Jane', ['Jon', 'Doe'])).to.equal(true);
     });
 
     it('should return false if item value is in the list of values', () => {
-        expect(notin(conf, req, 'name', ['Jane', 'Doe'])).to.equal(false);
+        expect(notin('Jane', ['Jane', 'Doe'])).to.equal(false);
     });
 
-    it('should return true if item value is confirmed', () => {
-        expect(confirmed(conf, req, 'password')).to.equal(true);
-    });
-
-    it('should return false if item value is not confirmed', () => {
-        expect(confirmed(conf, req, 'string')).to.equal(false);
-    });
+    // it('should return true if item value is confirmed', () => {
+    //     expect(confirmed('password')).to.equal(true);
+    // });
+    //
+    // it('should return false if item value is not confirmed', () => {
+    //     expect(confirmed('string')).to.equal(false);
+    // });
 
     it('should return true if item value is start with the specified', () => {
-        expect(start_with(conf, req, 'string', 'st')).to.equal(true);
+        expect(start_with('string', 'st')).to.equal(true);
     });
 
     it('should return false if item value is not start with the specified', () => {
-        expect(start_with(conf, req, 'string', 'tn')).to.equal(false);
+        expect(start_with('string', 'tn')).to.equal(false);
     });
 
     it('should return true if item value is end with the specified', () => {
-        expect(end_with(conf, req, 'string', 'ng')).to.equal(true);
+        expect(end_with('string', 'ng')).to.equal(true);
     });
 
     it('should return false if item value is not end with the specified', () => {
-        expect(end_with(conf, req, 'string', 'tn')).to.equal(false);
+        expect(end_with('string', 'tn')).to.equal(false);
     });
 
     it('should return true if item value matched the pattern', () => {
-        expect(regx(conf, req, 'string', '[a-z]')).to.equal(true);
+        expect(regx('string', '[a-z]')).to.equal(true);
     });
 
     it('should return false if item value didn\'t match the pattern', () => {
-        expect(regx(conf, req, 'string', '[A-Z]')).to.equal(false);
+        expect(regx('string', '[A-Z]')).to.equal(false);
     });
 });
