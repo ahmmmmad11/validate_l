@@ -8,24 +8,29 @@ module.exports = {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
     alpha: (conf, req, item) => {
-        const pattern = /[A-z]/
+        const pattern = /[A-z]/;
+
         if (! pattern.test(String(req.body[item]))) {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
     alphanumeric: (conf, req, item) => {
-        const pattern = /^[A-z].*[0-9].*/
+        const pattern = /^[A-z].*[0-9].*/;
+
         if (! pattern.test(String(req.body[item]))) {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -34,6 +39,7 @@ module.exports = {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
@@ -42,6 +48,7 @@ module.exports = {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -50,6 +57,7 @@ module.exports = {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
@@ -58,6 +66,7 @@ module.exports = {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
@@ -66,15 +75,18 @@ module.exports = {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true; 
     },
 
     email: (conf, req, item) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
         if (! pattern.test(String(req.body[item]).toLowerCase())) {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -83,6 +95,7 @@ module.exports = {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -113,6 +126,7 @@ module.exports = {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
@@ -149,11 +163,11 @@ module.exports = {
     },
 
     regx: (conf, req, item, pattern, roles = []) => {
-        let str = String(req.body[item])
-        if (! pattern.test(str)) {
+        if (! pattern.test(String(req.body[item]))) {
             respond(conf, getFuncName(), item);
             return false;
         }
+
         return true;
     },
 
@@ -162,6 +176,7 @@ module.exports = {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -170,6 +185,7 @@ module.exports = {
             respond(conf, getFuncName(), item)
             return false;
         }
+
         return true;
     },
 
@@ -182,14 +198,16 @@ module.exports = {
     },
 
     url: (conf, req, item) => {
-        const isValidUrl = urlString=> {
+        const isValidUrl = urlString => {
             let url;
+
             try { 
                   url =new URL(urlString); 
             }
             catch(e){ 
               return false; 
             }
+
             return url.protocol === "http:" || url.protocol === "https:";
         }
 
