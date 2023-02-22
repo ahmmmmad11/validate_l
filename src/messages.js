@@ -17,6 +17,6 @@ module.exports = {
     notin: ':item should not be one of :list.',
     url: ':item should be a valid url.',
     regx: ':item is not matched.',
-    startwith: ':item should start with :prefix',
-    endwith: ':item should end with :suffix',
+    start_with: ':item should start with :prefix',
+    end_with: ':item should end with :suffix',
 };
