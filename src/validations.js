@@ -1,203 +1,105 @@
-const respond = require('./respond')
-
-function getFuncName () {return getFuncName.caller.name;}
-
 module.exports = {
-    after: (conf, req, item, compared, roles = []) => {
-        if (Date.parse(req.body[item]) > Date.parse(compared)) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+    after: (item, compared, roles = []) => {
+        return Date.parse(item) <= Date.parse(compared);
     },
 
-    alpha: (conf, req, item) => {
+    alpha: (item) => {
         const pattern = /[A-z]/;
 
-        if (! pattern.test(String(req.body[item]))) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+        return pattern.test(String(item));
     },
 
-    alphanumeric: (conf, req, item) => {
+    alphanumeric: (item) => {
         const pattern = /^[A-z].*[0-9].*/;
 
-        if (! pattern.test(String(req.body[item]))) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+        return pattern.test(String(item));
     },
 
-    array: (conf, req, item) => {
-        if (! Array.isArray((req.body[item]))) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    array: (item) => {
+        return Array.isArray((item));
     },
 
-    before: (conf, req, item, compared, roles = []) => {
-        if (Date.parse(req.body[item]) < Date.parse(compared)) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+    before: (item, compared, roles = []) => {
+        return Date.parse(item) >= Date.parse(compared);
     },
 
-    boolean: (conf, req, item) => {
-        if (typeof(req.body[item]) != 'boolean') {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    boolean: (item) => {
+        return typeof (item) == 'boolean';
     },
 
-    confirmed: (conf, req, item) => {
-        if (!req.body[item + '_confirmation'] || req.body[item + '_confirmation'] !== req.body[item] ) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    confirmed: (item) => {
+        return !(!req.body[item + '_confirmation'] || req.body[item + '_confirmation'] !== item);
     },
 
-    date: (conf, req, item) => {
-        if (isNaN(Date.parse(req.body[item]))) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    date: (item) => {
+        return !isNaN(Date.parse(item));
     },
 
-    email: (conf, req, item) => {
+    email: (item) => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        if (! pattern.test(String(req.body[item]).toLowerCase())) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+        return pattern.test(String(item).toLowerCase());
     },
 
-    end_with: (conf, req, item, suffix, roles = []) => {
-        if (! req.body[item].endsWith(suffix)) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+    end_with: (item, suffix, roles = []) => {
+        return item.endsWith(suffix);
     },
 
-    in: (conf, req, item, list, roles = []) => {
+    in: (item, list, roles = []) => {
         let listArray = typeof(list) === 'string' ? list.split(',') : list;
 
-        if (!listArray.find((element) => element === req.body[item])) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+        return listArray.find((element) => element === item);
     },
 
-    notin: (conf, req, item, list, roles = []) => {
+    notin: (item, list, roles = []) => {
         let listArray = typeof(list) === 'string' ? list.split(',') : list;
 
-        if (listArray.find((element) => element === req.body[item])) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+        return !listArray.find((element) => element === item);
     },
 
-    number: (conf, req, item) => {
-        if (String(Number(req.body[item])) === 'NaN') {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    number: (item) => {
+        return String(Number(item)) !== 'NaN';
     },
 
-    max: (conf, req, item, len, roles) => {
+    max: (item, len, roles) => {
         //if the type is a number we will compare the value
-        if (typeof(req.body[item]) === 'number' && req.body[item] > len) {
-            respond(conf, getFuncName(), item);
+        if (typeof(item) === 'number' && item > len) {
+
             return false;
         }
 
         //if the type is a string we will compare the length
-        if (typeof(req.body[item]) === 'string' && req.body[item].length > len ) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+        return !(typeof (item) === 'string' && item.length > len);
     },
 
-    min: (conf, req, item, len, roles) => {
+    min: (item, len, roles) => {
         //if the type is a number we will compare the value
-        if (typeof(req.body[item]) === 'number' && req.body[item] < len) {
-            respond(conf, getFuncName(), item);
+        if (typeof(item) === 'number' && item < len) {
+
             return false;
         }
 
         //if the type is a string we will compare the length
-        if (typeof(req.body[item]) === 'string' && req.body[item].length < len ) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+        return !(typeof (item) === 'string' && item.length < len);
     },
 
-    regx: (conf, req, item, pattern, roles = []) => {
-        if (! RegExp(pattern).test(String(req.body[item]))) {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-
-        return true;
+    regx: (item, pattern, roles = []) => {
+        return RegExp(pattern).test(String(item));
     },
 
-    required: (conf, req, item) => {
-        if (!(item in req.body) || req.body[item] === '') {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+    required: (item) => {
+        return !(!(item in req.body) || item === '');
     },
 
-    start_with: (conf, req, item, prefix, roles = []) => {
-        if (! req.body[item].startsWith(prefix)) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+    start_with: (item, prefix, roles = []) => {
+        return item.startsWith(prefix);
     },
 
-    string: (conf, req, item) => {
-        if (typeof(req.body[item]) != 'string') {
-            respond(conf, getFuncName(), item);
-            return false;
-        }
-        return true;
+    string: (item) => {
+        return typeof (item) == 'string';
     },
 
-    url: (conf, req, item) => {
+    url: (item) => {
         const isValidUrl = urlString => {
             let url;
 
@@ -211,11 +113,6 @@ module.exports = {
             return url.protocol === "http:" || url.protocol === "https:";
         }
 
-        if (! isValidUrl(req.body[item])) {
-            respond(conf, getFuncName(), item)
-            return false;
-        }
-
-        return true;
+        return isValidUrl(item);
     },
 };
