@@ -21,7 +21,7 @@ module.exports = {
     },
 
     alphanumeric: (conf, req, item) => {
-        const pattern = /[A-z+0-9]/
+        const pattern = /^[A-z].*[0-9].*/
         if (! pattern.test(String(req.body[item]))) {
             respond(conf, getFuncName(), item)
             return false;
