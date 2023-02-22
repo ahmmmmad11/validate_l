@@ -4,7 +4,7 @@ function getFuncName () {return getFuncName.caller.name;}
 
 module.exports = {
     after: (conf, req, item, compared, roles = []) => {
-        if (Date.parse(req[item]) < Date.parse(compared)) {
+        if (Date.parse(req.body[item]) > Date.parse(compared)) {
             respond(conf, getFuncName(), item)
             return false;
         }
@@ -44,7 +44,7 @@ module.exports = {
     },
 
     before: (conf, req, item, compared, roles = []) => {
-        if (Date.parse(req[item]) > Date.parse(compared)) {
+        if (Date.parse(req.body[item]) < Date.parse(compared)) {
             respond(conf, getFuncName(), item)
             return false;
         }
