@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, notin, email, confirmed, alpha, alphanumeric,
-    after, before, start_with, end_with
+    after, before, start_with, end_with, regx
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -174,5 +174,13 @@ describe("Testing with chai", () => {
 
     it('should return false if item value is not end with the specified', () => {
         expect(end_with(conf, req, 'string', 'tn')).to.equal(false);
+    });
+
+    it('should return true if item value matched the pattern', () => {
+        expect(regx(conf, req, 'string', '[a-z]')).to.equal(true);
+    });
+
+    it('should return false if item value didn\'t match the pattern', () => {
+        expect(regx(conf, req, 'string', '[A-Z]')).to.equal(false);
     });
 });

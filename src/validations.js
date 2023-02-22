@@ -163,7 +163,7 @@ module.exports = {
     },
 
     regx: (conf, req, item, pattern, roles = []) => {
-        if (! pattern.test(String(req.body[item]))) {
+        if (! RegExp(pattern).test(String(req.body[item]))) {
             respond(conf, getFuncName(), item);
             return false;
         }
