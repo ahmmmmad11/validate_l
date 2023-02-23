@@ -40,5 +40,12 @@ describe("Testing check js", () => {
 
     it("should return false if validation is not passed", () => {
         expect(check(req, 'string', 'number', conf)).to.equal(false);
+        expect(conf.response).not.empty;
+        expect(conf.response).has.key('string');
+    });
+
+    it("should return false if validation is not passed", () => {
+        expect(check(req, 'number', 'min:20', conf)).to.equal(false);
+        expect(conf.response).not.empty;
     });
 });
