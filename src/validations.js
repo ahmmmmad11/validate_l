@@ -57,7 +57,15 @@ module.exports = {
         return !listArray.find((element) => element === item);
     },
 
+    nullable: (item) => {
+        if (item === null || item === '' || item === undefined) {
+            return 'break'
+        }
+        return true;
+    },
+
     number: (item) => {
+        if (!item) return false;
         return String(Number(item)) !== 'NaN';
     },
 
