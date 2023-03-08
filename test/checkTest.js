@@ -15,7 +15,10 @@ describe("Testing check js", () => {
             url: 'https://www.geeksforgeeks.org/',
             email: 'jane@example.com',
             password: '12345678',
-            password_confirmation: '12345678'
+            password_confirmation: '12345678',
+            object: {
+                inner: 'string'
+            }
         }
     };
 
@@ -47,5 +50,9 @@ describe("Testing check js", () => {
     it("should return false if validation is not passed", () => {
         expect(check(req, 'number', 'min:20', conf)).to.equal(false);
         expect(conf.response).not.empty;
+    });
+
+    it("should return true if validation is passed", () => {
+        expect(check(req, 'object.inner', 'string', conf)).to.equal(true);
     });
 });
