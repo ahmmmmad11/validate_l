@@ -1,29 +1,22 @@
-const fs = require('fs');
-const path = require('path');
-const check = require("./src/check");
+const check = require('./src/check');
 
 
 module.exports = {
-    validate: (req, res, items, fields={}, messages={}) => {
-        //initialize config
-
+    validate: (req, res, items, fields= {}, messages= {}) => {
         const conf = {
             response: {},
-            fields_alliace: fields,
-            message_aliace: messages,
+            fields_alias: fields,
+            message_alias: messages,
             lang: req.lang ?? 'en'
         }
     
         for (let item in items) {
-            for (let term of items[item]) {
-                if (!check(req, res, items, conf)) break;
+            for (let rule of items[item]) {
+                let result = check(req, item, rule, conf);
+                if (result === 'break' || !result) break;
             }
         }
     
-        console.log(conf.response)
+        return conf.response;
     },
-
-    sync: () => {
-        console.log(path.join(__dirname))
-    }
 }
