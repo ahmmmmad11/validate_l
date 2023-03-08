@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const {required, string, number, boolean, date, array, url, min, max, notin, email, confirmed, alpha, alphanumeric,
-    after, before, start_with, end_with, regx
+const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
+    after, before, not_in, starts_with, ends_with, regex, alpha_num
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -46,11 +46,11 @@ describe("Testing with chai", () => {
     });
 
     it('should return true if item string contains letters numbers', () => {
-        expect(alphanumeric('string808')).to.equal(true);
+        expect(alpha_num('string808')).to.equal(true);
     });
 
     it('should return false if item string dose not contains letters numbers', () => {
-        expect(alphanumeric('alpha')).to.equal(false);
+        expect(alpha_num('alpha')).to.equal(false);
     });
 
     it('should return true if item is a valid email', () => {
@@ -138,11 +138,11 @@ describe("Testing with chai", () => {
     });
 
     it('should return true if item value is in not the list of values', () => {
-        expect(notin('Jane', ['Jon', 'Doe'])).to.equal(true);
+        expect(not_in('Jane', ['Jon', 'Doe'])).to.equal(true);
     });
 
     it('should return false if item value is in the list of values', () => {
-        expect(notin('Jane', ['Jane', 'Doe'])).to.equal(false);
+        expect(not_in('Jane', ['Jane', 'Doe'])).to.equal(false);
     });
 
     // it('should return true if item value is confirmed', () => {
@@ -154,26 +154,26 @@ describe("Testing with chai", () => {
     // });
 
     it('should return true if item value is start with the specified', () => {
-        expect(start_with('string', 'st')).to.equal(true);
+        expect(starts_with('string', 'st')).to.equal(true);
     });
 
     it('should return false if item value is not start with the specified', () => {
-        expect(start_with('string', 'tn')).to.equal(false);
+        expect(starts_with('string', 'tn')).to.equal(false);
     });
 
     it('should return true if item value is end with the specified', () => {
-        expect(end_with('string', 'ng')).to.equal(true);
+        expect(ends_with('string', 'ng')).to.equal(true);
     });
 
     it('should return false if item value is not end with the specified', () => {
-        expect(end_with('string', 'tn')).to.equal(false);
+        expect(ends_with('string', 'tn')).to.equal(false);
     });
 
     it('should return true if item value matched the pattern', () => {
-        expect(regx('string', '[a-z]')).to.equal(true);
+        expect(regex('string', '[a-z]')).to.equal(true);
     });
 
     it('should return false if item value didn\'t match the pattern', () => {
-        expect(regx('string', '[A-Z]')).to.equal(false);
+        expect(regex('string', '[A-Z]')).to.equal(false);
     });
 });

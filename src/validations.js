@@ -9,7 +9,7 @@ module.exports = {
         return pattern.test(item);
     },
 
-    alphanumeric: (item) => {
+    alpha_num: (item) => {
         const pattern = /^[A-z].*[0-9].*/;
 
         return pattern.test(item);
@@ -41,7 +41,7 @@ module.exports = {
         return pattern.test(String(item).toLowerCase());
     },
 
-    end_with: (item, suffix) => {
+    ends_with: (item, suffix) => {
         return item.endsWith(suffix);
     },
 
@@ -51,7 +51,7 @@ module.exports = {
         return listArray.find((element) => element === item);
     },
 
-    notin: (item, list) => {
+    not_in: (item, list) => {
         let listArray = typeof(list) === 'string' ? list.split(',') : list;
 
         return !listArray.find((element) => element === item);
@@ -91,7 +91,7 @@ module.exports = {
         return !(typeof (item) === 'string' && item.length < len);
     },
 
-    regx: (item, pattern) => {
+    regex: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
 
@@ -100,7 +100,7 @@ module.exports = {
         return item !== '';
     },
 
-    start_with: (item, prefix) => {
+    starts_with: (item, prefix) => {
         return item.startsWith(prefix);
     },
 
