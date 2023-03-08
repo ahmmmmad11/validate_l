@@ -5,6 +5,8 @@ const getFunctionParameters = (fn) => {
     return /\((.*?)\)/.exec(validations[fn].toString())[1];
 };
 
+const breaks = {};
+
 const getArgs = (argsList, field, value, body, appendix) => {
     let args = [];
 
@@ -62,14 +64,25 @@ const looper = (rule, appendix, field, body, array = false) => {
 };
 
 const loopOverArray = (rule, appendix, field, body) => {
-    body.forEach(element => {
+    let counter = 0;
+
+    for (let element of body){
+        counter ++;
+
+        if (ignore(field, counter)) {
+            continue;
+        }
+
         let result = looper(rule, appendix, field, element);
 
-        if (!result ) {
-
+        if (!result) {
             return result;
         }
-    });
+
+        if (result === 'break') {
+            toBeIgnored(field, counter);
+        }
+    }
 
     return true;
 };
@@ -88,15 +101,28 @@ const loopOverFields = (subs, rule, appendix, field, body) => {
     });
 
     return validate(rule, appendix, field, chain, body);
+};
+
+const toBeIgnored = (field, counter) => {
+    if (breaks[field]) {
+        return breaks[field].push(counter)
+    }
+
+    breaks[field] = [counter];
+}
+
+const ignore = (field, counter) => {
+    return breaks[field] ? breaks[field].indexOf(counter) > 0 : false
 }
 
 module.exports = (req, field, rule, conf) => {
     rule = rule.split(':');
 
     if (rule[0] in validations) {
+        let result = looper(rule[0], rule[1], field, req.body);
 
-        if(looper(rule[0], rule[1], field, req.body)) {
-            return true;
+        if(result) {
+            return result;
         }
 
         respond(conf, rule[0], field, rule[1]);
