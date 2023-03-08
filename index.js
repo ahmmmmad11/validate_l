@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const check = require('./src/check');
 
 
@@ -21,8 +19,4 @@ module.exports = {
     
         return conf.response;
     },
-
-    sync: () => {
-        console.log(path.join(__dirname))
-    }
 }
