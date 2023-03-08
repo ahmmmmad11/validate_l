@@ -27,8 +27,8 @@ module.exports = {
         return typeof (item) == 'boolean';
     },
 
-    confirmed: (item) => {
-        return !(!req.body[item + '_confirmation'] || req.body[item + '_confirmation'] !== item);
+    confirmed: (item, field, body) => {
+        return body[field + '_confirmation'] === item;
     },
 
     date: (item) => {
