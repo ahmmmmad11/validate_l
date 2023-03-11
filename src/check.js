@@ -94,7 +94,7 @@ const loopOverFields = async (subs, rule, appendix, field, body) => {
         if (element === '*') {
             let spliceTo = subs.indexOf(element);
             subs.splice(0, spliceTo + 1);
-            return await looper(subs.join('.'), chain, true);
+            return await looper(rule, appendix, subs.join('.'), chain, true);
         }
 
         chain = chain[element];
