@@ -29,30 +29,30 @@ describe("Testing check js", () => {
         lang: req.lang ?? 'en'
     }
 
-    it("should return true if validation is passed", () => {
-        expect(check(req, 'bool', 'boolean', conf)).to.equal(true);
+    it("should return true if validation is passed", async () => {
+        expect(await check(req, 'bool', 'boolean', conf)).to.equal(true);
     });
 
-    it("should return true if validation is passed", () => {
-        expect(check(req, 'string', 'string', conf)).to.equal(true);
+    it("should return true if validation is passed", async () => {
+        expect(await check(req, 'string', 'string', conf)).to.equal(true);
     });
 
-    it("should return true if validation is passed", () => {
-        expect(check(req, 'date', 'before:2020/01/01', conf)).to.equal(true);
+    it("should return true if validation is passed", async () => {
+        expect(await check(req, 'date', 'before:2020/01/01', conf)).to.equal(true);
     });
 
-    it("should return false if validation is not passed", () => {
-        expect(check(req, 'string', 'number', conf)).to.equal(false);
+    it("should return false if validation is not passed", async () => {
+        expect(await check(req, 'string', 'number', conf)).to.equal(false);
         expect(conf.response).not.empty;
         expect(conf.response).has.key('string');
     });
 
-    it("should return false if validation is not passed", () => {
-        expect(check(req, 'number', 'min:20', conf)).to.equal(false);
+    it("should return false if validation is not passed", async () => {
+        expect(await check(req, 'number', 'min:20', conf)).to.equal(false);
         expect(conf.response).not.empty;
     });
 
-    it("should return true if validation is passed", () => {
-        expect(check(req, 'object.inner', 'string', conf)).to.equal(true);
+    it("should return true if validation is passed", async () => {
+        expect(await check(req, 'object.inner', 'string', conf)).to.equal(true);
     });
 });
