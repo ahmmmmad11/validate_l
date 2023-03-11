@@ -32,8 +32,8 @@ const getArgs = (argsList, field, value, body, appendix) => {
     return args;
 };
 
-const validate = (rule, appendix, field, value, body) => {
-    return validations[rule](
+const validate = async (rule, appendix, field, value, body) => {
+    return await validations[rule](
         ...getArgs(
             getFunctionParameters(rule).split(','),
             field,
@@ -48,22 +48,22 @@ const validate = (rule, appendix, field, value, body) => {
  * get field value by going deep inside request body object
  * either it's nested objects or arrays
  * */
-const looper = (rule, appendix, field, body, array = false) => {
+const looper = async (rule, appendix, field, body, array = false) => {
     let subs = field.split('.');
 
     if (subs.length === 1 && !array) {
         let value = typeof(body) !== 'object' && !field ? body : body[field];
-        return validate(rule, appendix, field, value, body);
+        return await validate(rule, appendix, field, value, body);
     }
 
     if (subs.length === 1 && array) {
-        return loopOverArray(rule, appendix, field, body);
+        return await loopOverArray(rule, appendix, field, body);
     }
 
-    return loopOverFields(subs, rule, appendix, field, body);
+    return await loopOverFields(subs, rule, appendix, field, body);
 };
 
-const loopOverArray = (rule, appendix, field, body) => {
+const loopOverArray = async (rule, appendix, field, body) => {
     let counter = 0;
 
     for (let element of body){
@@ -73,7 +73,7 @@ const loopOverArray = (rule, appendix, field, body) => {
             continue;
         }
 
-        let result = looper(rule, appendix, field, element);
+        let result = await looper(rule, appendix, field, element);
 
         if (!result) {
             return result;
@@ -87,20 +87,20 @@ const loopOverArray = (rule, appendix, field, body) => {
     return true;
 };
 
-const loopOverFields = (subs, rule, appendix, field, body) => {
+const loopOverFields = async (subs, rule, appendix, field, body) => {
     let chain = body;
 
-    subs.forEach(element => {
+     for(let element of subs) {
         if (element === '*') {
             let spliceTo = subs.indexOf(element);
             subs.splice(0, spliceTo + 1);
-            return looper(subs.join('.'), chain, true);
+            return await looper(subs.join('.'), chain, true);
         }
 
         chain = chain[element];
-    });
+    }
 
-    return validate(rule, appendix, field, chain, body);
+    return await validate(rule, appendix, field, chain, body);
 };
 
 const toBeIgnored = (field, counter) => {
@@ -115,11 +115,11 @@ const ignore = (field, counter) => {
     return breaks[field] ? breaks[field].indexOf(counter) > 0 : false
 }
 
-module.exports = (req, field, rule, conf) => {
+module.exports = async (req, field, rule, conf) => {
     rule = rule.split(':');
 
     if (rule[0] in validations) {
-        let result = looper(rule[0], rule[1], field, req.body);
+        let result = await looper(rule[0], rule[1], field, req.body);
 
         if(result) {
             return result;

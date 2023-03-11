@@ -2,7 +2,7 @@ const check = require('./src/check');
 
 
 module.exports = {
-    validate: (req, res, items, fields= {}, messages= {}) => {
+    validate: async (req, res, items, fields= {}, messages= {}) => {
         const conf = {
             response: {},
             fields_alias: fields,
@@ -12,7 +12,7 @@ module.exports = {
     
         for (let item in items) {
             for (let rule of items[item]) {
-                let result = check(req, item, rule, conf);
+                let result = await check(req, item, rule, conf);
                 if (result === 'break' || !result) break;
             }
         }
