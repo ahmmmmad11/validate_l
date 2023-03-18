@@ -182,6 +182,20 @@ module.exports = {
         return false;
     },
 
+    required_without_all: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return 'break';
+            }
+        }
+
+        return false;
+    },
+
     required_with_all: (item, body, fields) => {
         if (!emptyValue(item)) {
             return true;

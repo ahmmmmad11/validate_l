@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
     after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if, required_unless, required_with,
-    required_with_all, required_without
+    required_with_all, required_without, required_without_all
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -252,5 +252,21 @@ describe("Testing with chai", () => {
 
     it('should return false if one of the fields are in the request body ', () => {
         expect(required_without('', {name: 'ahmed', age: 30}, 'age')).to.equal(false);
+    });
+
+    it('should return true if item is exists', () => {
+        expect(required_without_all('any', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(true);
+    });
+
+    it('should return break if all of the fields are not in the request body ', () => {
+        expect(required_without_all('', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(false);
+    });
+
+    it('should return break if the one of the fields is not empty', () => {
+        expect(required_without_all('', {name: 'ahmed', age: ''}, 'name,age')).to.equal('break');
+    });
+
+    it('should return false if one of the fields are in the request body ', () => {
+        expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(false);
     });
 });
