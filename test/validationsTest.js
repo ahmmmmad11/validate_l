@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
-    after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if
+    after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if, required_unless
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -189,7 +189,23 @@ describe("Testing with chai", () => {
         expect(required_if('', {name: 'ahmed'}, 'name,ahmed')).to.equal(false);
     });
 
-    it('should return false if the item is not exist and the requirement condition is not met ', () => {
+    it('should return break if the item is not exist and the requirement condition is not met ', () => {
         expect(required_if('', {name: 'ahmed'}, 'name,mohamed')).to.equal('break');
+    });
+
+    it('should return true if the item is exist and the requirement condition is met ', () => {
+        expect(required_unless('any', {name: 'mohamed'}, 'name,ahmed')).to.equal(true);
+    });
+
+    it('should return break if the item is exist and the requirement condition is met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name')).to.equal('break');
+    });
+
+    it('should return break if the item is not exist and the requirement condition is met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name,ahmed')).to.equal('break');
+    });
+
+    it('should return false if the item is not exist and the requirement condition is not met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name,mohamed')).to.equal(false);
     });
 });

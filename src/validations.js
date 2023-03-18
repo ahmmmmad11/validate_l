@@ -131,6 +131,29 @@ module.exports = {
         return 'break';
     },
 
+    required_unless: (item, body, expression) => {
+
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'null') {
+            return 'break';
+        }
+
+        if(value.length === 1 && body[expression]) {
+            return 'break';
+        }
+
+        if (value.length > 1 && body[value[0]] === value[1]) {
+            return 'break';
+        }
+
+        return false;
+    },
+
     starts_with: (item, prefix) => {
         return item.startsWith(prefix);
     },
