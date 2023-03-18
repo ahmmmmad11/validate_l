@@ -154,6 +154,20 @@ module.exports = {
         return false;
     },
 
+    required_with: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return false;
+            }
+        }
+
+        return 'break';
+    },
+
     starts_with: (item, prefix) => {
         return item.startsWith(prefix);
     },
