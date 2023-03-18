@@ -168,6 +168,20 @@ module.exports = {
         return 'break';
     },
 
+    required_with_all: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (emptyValue(body[field])) {
+                return 'break';
+            }
+        }
+
+        return false;
+    },
+
     starts_with: (item, prefix) => {
         return item.startsWith(prefix);
     },
