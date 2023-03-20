@@ -104,6 +104,24 @@ module.exports = {
         return item === undefined;
     },
 
+    missing_if: (item, body, expression) => {
+        if (item === undefined) {
+            return true;
+        }
+
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'true' && item) {
+            return false;
+        }
+
+        if(value.length === 1 && body[expression] && item) {
+            return false;
+        }
+
+        return !(value.length > 1 && body[value[0]] === value[1] && item);
+    },
+
     regex: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
