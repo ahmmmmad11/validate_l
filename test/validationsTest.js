@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
     after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if, required_unless, required_with,
-    required_with_all, required_without, required_without_all
+    required_with_all, required_without, required_without_all, missing
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -268,5 +268,13 @@ describe("Testing with chai", () => {
 
     it('should return false if one of the fields are in the request body ', () => {
         expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(false);
+    });
+
+    it('should return true if item is missing in', () => {
+        expect(missing(req['body']['foo'])).to.equal(true);
+    });
+
+    it('should return false if item is existed in the request body ', () => {
+        expect(missing(req['body']['string'])).to.equal(false);
     });
 });

@@ -100,6 +100,10 @@ module.exports = {
         return !(typeof (item) === 'string' && item.length < len);
     },
 
+    missing: (item) => {
+        return item === undefined;
+    },
+
     regex: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
