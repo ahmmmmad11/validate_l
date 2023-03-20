@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
     after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if, required_unless, required_with,
-    required_with_all, required_without, required_without_all, missing, missing_if
+    required_with_all, required_without, required_without_all, missing, missing_if, missing_unless
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -288,5 +288,17 @@ describe("Testing with chai", () => {
 
     it('should return true if item is existed in request body but the condition did not met', () => {
         expect(missing_if(req['body']['foo'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+    });
+
+    it('should return true if item is missing in', () => {
+        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(true);
+    });
+
+    it('should return false if item is exited in request body and the condition is met', () => {
+        expect(missing_unless(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+    });
+
+    it('should return true if item is existed in request body but the condition did not met', () => {
+        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
     });
 });

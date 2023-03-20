@@ -122,6 +122,24 @@ module.exports = {
         return !(value.length > 1 && body[value[0]] === value[1] && item);
     },
 
+    missing_unless: (item, body, expression) => {
+        if (item === undefined) {
+            return true;
+        }
+
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'null') {
+            return true;
+        }
+
+        if(value.length === 1 && body[expression]) {
+            return true;
+        }
+
+        return value.length > 1 && body[value[0]] === value[1];
+    },
+
     regex: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
