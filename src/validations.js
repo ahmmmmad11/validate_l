@@ -105,10 +105,6 @@ module.exports = {
     },
 
     missing_if: (item, body, expression) => {
-        if (item === undefined) {
-            return true;
-        }
-
         let value = expression.split(',');
 
         if(value.length === 1 && expression === 'true' && item) {
@@ -119,25 +115,29 @@ module.exports = {
             return false;
         }
 
-        return !(value.length > 1 && body[value[0]] === value[1] && item);
+        if(value.length > 1 && body[value[0]] === value[1] && item) {
+            return false;
+        }
+
+        return item ? true : 'break';
     },
 
     missing_unless: (item, body, expression) => {
-        if (item === undefined) {
-            return true;
-        }
-
         let value = expression.split(',');
 
-        if(value.length === 1 && expression === 'null') {
+        if(value.length === 1 && expression === 'true' && item) {
             return true;
         }
 
-        if(value.length === 1 && body[expression]) {
+        if(value.length === 1 && body[expression] && item) {
             return true;
         }
 
-        return value.length > 1 && body[value[0]] === value[1];
+        if(value.length > 1 && body[value[0]] === value[1] && item) {
+            return true;
+        }
+
+        return item ? false : 'break';
     },
 
     regex: (item, pattern) => {
