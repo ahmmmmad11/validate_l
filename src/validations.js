@@ -6,7 +6,6 @@ const emptyValue  = (val) => {
 
 }
 
-
 module.exports = {
     after: (item, compared) => {
         return Date.parse(item) <= Date.parse(compared);
@@ -81,7 +80,6 @@ module.exports = {
     max: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item > len) {
-
             return false;
         }
 
@@ -92,7 +90,6 @@ module.exports = {
     min: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item < len) {
-
             return false;
         }
 
