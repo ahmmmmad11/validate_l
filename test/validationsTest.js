@@ -278,8 +278,8 @@ describe("Testing with chai", () => {
         expect(missing(req['body']['string'])).to.equal(false);
     });
 
-    it('should return true if item is missing in', () => {
-        expect(missing_if(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(true);
+    it('should return break if item is missing in', () => {
+        expect(missing_if(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
     });
 
     it('should return false if item is exited in request body and the condition is met', () => {
@@ -287,18 +287,18 @@ describe("Testing with chai", () => {
     });
 
     it('should return true if item is existed in request body but the condition did not met', () => {
-        expect(missing_if(req['body']['foo'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+        expect(missing_if(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
     });
 
-    it('should return true if item is missing in', () => {
-        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(true);
+    it('should return break if item is missing in', () => {
+        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
     });
 
     it('should return false if item is exited in request body and the condition is met', () => {
         expect(missing_unless(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
     });
 
-    it('should return true if item is existed in request body but the condition did not met', () => {
-        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+    it('should return false if item is existed in request body but the condition did not met', () => {
+        expect(missing_unless(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
     });
 });
