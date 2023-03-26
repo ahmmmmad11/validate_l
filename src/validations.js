@@ -140,6 +140,26 @@ module.exports = {
         return item ? false : 'break';
     },
 
+    missing_with: (item, body, fields) => {
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return item === undefined;
+            }
+        }
+
+        return item ? true : 'break';
+    },
+
+    missing_with_all: (item, body, fields) => {
+        for (let field of fields.split(',')) {
+            if (emptyValue(body[field])) {
+                return item ? true : 'break';
+            }
+        }
+
+        return !item;
+    },
+
     regex: (item, pattern) => {
         return RegExp(pattern).test(String(item));
     },
