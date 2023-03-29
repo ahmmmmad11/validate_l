@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
-    after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if
+    after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if, required_unless, required_with,
+    required_with_all, required_without, required_without_all, missing, missing_if, missing_unless
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -189,7 +190,115 @@ describe("Testing with chai", () => {
         expect(required_if('', {name: 'ahmed'}, 'name,ahmed')).to.equal(false);
     });
 
-    it('should return false if the item is not exist and the requirement condition is not met ', () => {
+    it('should return break if the item is not exist and the requirement condition is not met ', () => {
         expect(required_if('', {name: 'ahmed'}, 'name,mohamed')).to.equal('break');
+    });
+
+    it('should return true if the item is exist and the requirement condition is met ', () => {
+        expect(required_unless('any', {name: 'mohamed'}, 'name,ahmed')).to.equal(true);
+    });
+
+    it('should return break if the item is exist and the requirement condition is met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name')).to.equal('break');
+    });
+
+    it('should return break if the item is not exist and the requirement condition is met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name,ahmed')).to.equal('break');
+    });
+
+    it('should return false if the item is not exist and the requirement condition is not met ', () => {
+        expect(required_unless('', {name: 'ahmed'}, 'name,mohamed')).to.equal(false);
+    });
+
+    it('should return true if one or more of the fields in the request body ', () => {
+        expect(required_with('any', {name: 'ahmed', age: 30}, 'name')).to.equal(true);
+    });
+
+    it('should return break if all of fields are not in the request body ', () => {
+        expect(required_with('', {name: 'ahmed', age: 30}, 'birthdate')).to.equal('break');
+    });
+
+    it('should return break if the all of the fields are empty', () => {
+        expect(required_with('', {name: 'ahmed', age: ''}, 'age')).to.equal('break');
+    });
+
+    it('should return false if the fields are in the request body ', () => {
+        expect(required_with('', {name: 'ahmed', age: 30}, 'age')).to.equal(false);
+    });
+
+    it('should return true if all of the fields in the request body ', () => {
+        expect(required_with_all('any', {name: 'ahmed', age: 30}, 'name,age')).to.equal(true);
+    });
+
+    it('should return break if any of the specified fields are not in the request body ', () => {
+        expect(required_with_all('', {name: 'ahmed', age: 30}, 'name,birthdate')).to.equal('break');
+    });
+
+    it('should return false if the fields are in the request body ', () => {
+        expect(required_with_all('', {name: 'ahmed', age: 30}, 'name,age')).to.equal(false);
+    });
+
+    it('should return true if one or more of the fields are not in the request body ', () => {
+        expect(required_without('any', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(true);
+    });
+
+    it('should return break if one of the fields are not in the request body ', () => {
+        expect(required_without('', {name: 'ahmed', age: 30}, 'birthdate')).to.equal('break');
+    });
+
+    it('should return break if the one of the fields are empty', () => {
+        expect(required_without('', {name: 'ahmed', age: ''}, 'age')).to.equal('break');
+    });
+
+    it('should return false if one of the fields are in the request body ', () => {
+        expect(required_without('', {name: 'ahmed', age: 30}, 'age')).to.equal(false);
+    });
+
+    it('should return true if item is exists', () => {
+        expect(required_without_all('any', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(true);
+    });
+
+    it('should return break if all of the fields are not in the request body ', () => {
+        expect(required_without_all('', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(false);
+    });
+
+    it('should return break if the one of the fields is not empty', () => {
+        expect(required_without_all('', {name: 'ahmed', age: ''}, 'name,age')).to.equal('break');
+    });
+
+    it('should return false if one of the fields are in the request body ', () => {
+        expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(false);
+    });
+
+    it('should return true if item is missing in', () => {
+        expect(missing(req['body']['foo'])).to.equal(true);
+    });
+
+    it('should return false if item is existed in the request body ', () => {
+        expect(missing(req['body']['string'])).to.equal(false);
+    });
+
+    it('should return break if item is missing in', () => {
+        expect(missing_if(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
+    });
+
+    it('should return false if item is exited in request body and the condition is met', () => {
+        expect(missing_if(req['body']['string'], {name: 'ahmed', age: ''}, 'name,ahmed')).to.equal(false);
+    });
+
+    it('should return true if item is existed in request body but the condition did not met', () => {
+        expect(missing_if(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+    });
+
+    it('should return break if item is missing in', () => {
+        expect(missing_unless(req['body']['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
+    });
+
+    it('should return false if item is exited in request body and the condition is met', () => {
+        expect(missing_unless(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+    });
+
+    it('should return false if item is existed in request body but the condition did not met', () => {
+        expect(missing_unless(req['body']['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
     });
 });

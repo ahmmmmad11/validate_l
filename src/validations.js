@@ -6,7 +6,6 @@ const emptyValue  = (val) => {
 
 }
 
-
 module.exports = {
     after: (item, compared) => {
         return Date.parse(item) <= Date.parse(compared);
@@ -81,7 +80,6 @@ module.exports = {
     max: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item > len) {
-
             return false;
         }
 
@@ -92,12 +90,71 @@ module.exports = {
     min: (item, len) => {
         //if the type is a number we will compare the value
         if (typeof(item) === 'number' && item < len) {
-
             return false;
         }
 
         //if the type is a string we will compare the length
         return !(typeof (item) === 'string' && item.length < len);
+    },
+
+    missing: (item) => {
+        return item === undefined;
+    },
+
+    missing_if: (item, body, expression) => {
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'true' && item) {
+            return false;
+        }
+
+        if(value.length === 1 && body[expression] && item) {
+            return false;
+        }
+
+        if(value.length > 1 && body[value[0]] === value[1] && item) {
+            return false;
+        }
+
+        return item ? true : 'break';
+    },
+
+    missing_unless: (item, body, expression) => {
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'true' && item) {
+            return true;
+        }
+
+        if(value.length === 1 && body[expression] && item) {
+            return true;
+        }
+
+        if(value.length > 1 && body[value[0]] === value[1] && item) {
+            return true;
+        }
+
+        return item ? false : 'break';
+    },
+
+    missing_with: (item, body, fields) => {
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return item === undefined;
+            }
+        }
+
+        return item ? true : 'break';
+    },
+
+    missing_with_all: (item, body, fields) => {
+        for (let field of fields.split(',')) {
+            if (emptyValue(body[field])) {
+                return item ? true : 'break';
+            }
+        }
+
+        return !item;
     },
 
     regex: (item, pattern) => {
@@ -129,6 +186,85 @@ module.exports = {
         }
 
         return 'break';
+    },
+
+    required_unless: (item, body, expression) => {
+
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'null') {
+            return 'break';
+        }
+
+        if(value.length === 1 && body[expression]) {
+            return 'break';
+        }
+
+        if (value.length > 1 && body[value[0]] === value[1]) {
+            return 'break';
+        }
+
+        return false;
+    },
+
+    required_with: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return false;
+            }
+        }
+
+        return 'break';
+    },
+
+    required_without: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (emptyValue(body[field])) {
+                return 'break';
+            }
+        }
+
+        return false;
+    },
+
+    required_without_all: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (!emptyValue(body[field])) {
+                return 'break';
+            }
+        }
+
+        return false;
+    },
+
+    required_with_all: (item, body, fields) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        for (let field of fields.split(',')) {
+            if (emptyValue(body[field])) {
+                return 'break';
+            }
+        }
+
+        return false;
     },
 
     starts_with: (item, prefix) => {
