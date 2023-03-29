@@ -1,3 +1,12 @@
+const emptyValue  = (val) => {
+    return val === null ||
+        val === undefined ||
+        val === '' ||
+        (typeof (val) === 'object' && Object.keys(val).length === 0);
+
+}
+
+
 module.exports = {
     after: (item, compared) => {
         return Date.parse(item) <= Date.parse(compared);
@@ -98,6 +107,28 @@ module.exports = {
     required: (item) => {
         if (item == null) return false;
         return item !== '';
+    },
+
+    required_if: (item, body, expression) => {
+        if (!emptyValue(item)) {
+            return true;
+        }
+
+        let value = expression.split(',');
+
+        if(value.length === 1 && expression === 'true') {
+            return false;
+        }
+
+        if(value.length === 1 && body[expression]) {
+            return false;
+        }
+
+        if (value.length > 1 && body[value[0]] === value[1]) {
+            return false;
+        }
+
+        return 'break';
     },
 
     starts_with: (item, prefix) => {

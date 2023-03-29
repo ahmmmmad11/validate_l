@@ -72,7 +72,7 @@ now the message for the name will be changed if the name attribute in not found 
 [Min](#rule-min)
 [Not In](#rule-not-in)
 [Nullable](#rule-nullable)
-[Number](#rule-numeric)
+[Number](#rule-number)
 [Regular Expression](#rule-regex)
 [Required](#rule-required)
 [Starts With](#rule-starts-with)
@@ -184,12 +184,12 @@ The field under validation may be `null` or not existed in the request body.
 
     'description': ['nullable']
 
-<a name="rule-numeric"></a>
-#### numeric
+<a name="rule-number"></a>
+#### number
 
 The field under validation must be a valid number.
 
-    'age': ['required', 'numeric', 'min:20'] 
+    'age': ['required', 'number', 'min:20'] 
 
 <a name="rule-regex"></a>
 #### regex:_pattern_

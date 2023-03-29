@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const {required, string, number, boolean, date, array, url, min, max, email, confirmed, alpha,
-    after, before, not_in, starts_with, ends_with, regex, alpha_num
+    after, before, not_in, starts_with, ends_with, regex, alpha_num, required_if
 } = require('../src/validations');
 
 describe("Testing with chai", () => {
@@ -175,5 +175,21 @@ describe("Testing with chai", () => {
 
     it('should return false if item value didn\'t match the pattern', () => {
         expect(regex('string', '[A-Z]')).to.equal(false);
+    });
+
+    it('should return true if the item is exist and the requirement condition is met ', () => {
+        expect(required_if('any', {name: 'ahmed'}, 'name,ahmed')).to.equal(true);
+    });
+
+    it('should return true if the item is exist and the requirement condition is met ', () => {
+        expect(required_if('any', {name: 'ahmed'}, 'name')).to.equal(true);
+    });
+
+    it('should return false if the item is not exist and the requirement condition is met ', () => {
+        expect(required_if('', {name: 'ahmed'}, 'name,ahmed')).to.equal(false);
+    });
+
+    it('should return false if the item is not exist and the requirement condition is not met ', () => {
+        expect(required_if('', {name: 'ahmed'}, 'name,mohamed')).to.equal('break');
     });
 });
