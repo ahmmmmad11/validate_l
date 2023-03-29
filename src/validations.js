@@ -50,7 +50,15 @@ module.exports = {
     },
 
     ends_with: (item, suffix) => {
-        return item.endsWith(suffix);
+        let words = suffix.split(',')
+
+        for (let word of words) {
+            if (item.endsWith(word)) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     in: (item, list) => {
@@ -268,7 +276,15 @@ module.exports = {
     },
 
     starts_with: (item, prefix) => {
-        return item.startsWith(prefix);
+        let words = prefix.split(',')
+
+        for (let word of words) {
+            if (item.startsWith(word)) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     string: (item) => {
