@@ -70,11 +70,22 @@ now the message for the name will be changed if the name attribute in not found 
 [In](#rule-in)
 [Max](#rule-max)
 [Min](#rule-min)
+[Missing](#rule-missing)
+[Missing If](#rule-missing-if)
+[Missing Unless](#rule-missing-unless)
+[Missing With](#rule-missing-with)
+[Missing With All](#rule-missing-with-all)
 [Not In](#rule-not-in)
 [Nullable](#rule-nullable)
 [Number](#rule-numeric)
 [Regular Expression](#rule-regex)
 [Required](#rule-required)
+[Required If](#rule-required-if)
+[Required Unless](#rule-required-unless)
+[Required With](#rule-required-with)
+[Required With All](#rule-required-with-all)
+[Required Without](#rule-required-without)
+[Required Without All](#rule-required-without-all)
 [Starts With](#rule-starts-with)
 [URL](#rule-url)
 
@@ -170,6 +181,41 @@ The field under validation must have a minimum _value_. Strings, numerics and ar
     'username': ['required', 'string' 'min:20'] // username should not be lss than 20 chars as length
     'age': ['required', 'numeric', 'min:20'] // age should not be less than 20
 
+<a name="rule-missing"></a>
+#### missing
+
+The field under validation must not be present in the input data.
+
+    'age': ['missing']
+
+<a name="rule-missing-if"></a>
+#### missing_if:_anotherfield_,_value_,...
+
+The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
+
+    'age': ['missing_if:birthdate']
+
+<a name="rule-missing-unless"></a>
+#### missing_unless:_anotherfield_,_value_
+
+The field under validation must not be present unless the _anotherfield_ field is equal to any _value_.
+
+    'age': ['missing_unless:name']
+
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ any of the other specified fields are present.
+
+    'age': ['missing_with:name,birthdate']
+
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ all of the other specified fields are present.
+
+    'age': ['missing_with_all:name,birthdate']
+
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
@@ -204,6 +250,57 @@ The field under validation must match the given regular expression.
 The field under validation must be present in the input data and not empty.
 
     'age': ['required']
+
+<a name="rule-required-if"></a>
+#### required_if:_anotherfield_,_value_,...
+
+The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
+
+    // age is required if name field is existed and not empty
+    'age': ['required_if:name']
+
+    // age is required if name field is existed and has value of 'jane'
+    'age': ['required_if:name,jane']
+
+<a name="rule-required-unless"></a>
+#### required_unless:_anotherfield_,_value_,...
+
+The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_. This also means _anotherfield_ must be present in the request data unless _value_ is `null`. If _value_ is `null` (`required_unless:name,null`), the field under validation will be required unless the comparison field is `null` or the comparison field is missing from the request data.
+
+    // age is required unless name field is existed and not empty
+    'age': ['required_if:name']
+
+    // age is required unless name field is existed and has value of 'jane'
+    'age': ['required_if:name,jane']
+
+<a name="rule-required-with"></a>
+#### required_with:_foo_,_bar_,...
+
+The field under validation must be present and not empty _only if_ any of the other specified fields are present and not empty.
+
+    'age': ['required_if:name,email']
+
+
+<a name="rule-required-with-all"></a>
+#### required_with_all:_foo_,_bar_,...
+
+The field under validation must be present and not empty _only if_ all of the other specified fields are present and not empty.
+
+    'age': ['required_if:name,email,password']
+
+<a name="rule-required-without"></a>
+#### required_without:_foo_,_bar_,...
+
+The field under validation must be present and not empty _only when_ any of the other specified fields are empty or not present.
+
+    age': ['required_if:birthdate']
+
+<a name="rule-required-without-all"></a>
+#### required_without_all:_foo_,_bar_,...
+
+The field under validation must be present and not empty _only when_ all of the other specified fields are empty or not present.
+
+    age': ['required_if:birthdate,year_of_birth']
 
 <a name="rule-starts-with"></a>
 #### starts_with:_foo_,_bar_,...
