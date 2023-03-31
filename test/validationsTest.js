@@ -344,3 +344,13 @@ describe("Testing missing_unless rule", () => {
         expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
     });
 });
+
+describe("Testing confirmed rule", () => {
+    it('should return true if item value is confirmed.', () => {
+        expect(confirmed(body['password'], 'password', body)).to.true;
+    });
+
+    it('should return false if item value is not confirmed.', () => {
+        expect(confirmed(body['name'], 'name', body)).to.false;
+    });
+});
