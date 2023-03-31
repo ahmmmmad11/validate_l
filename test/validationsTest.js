@@ -25,7 +25,7 @@ describe("Testing after rule", () => {
     });
 
     it('should return true if item is date not after other date.', () => {
-        expect(after('2020/01/20', '2020/01/01')).to.equal(false);
+        expect(after('2020/01/20', '2020/01/01')).to.be.false;
     });
 });
 
@@ -35,7 +35,7 @@ describe("Testing alpha rule", () => {
     });
 
     it('should return false if item string contains numbers.', () => {
-        expect(alpha('88')).to.equal(false);
+        expect(alpha('88')).to.be.false;
     });
 });
 
@@ -45,7 +45,7 @@ describe("Testing alpha num rule", () => {
     });
 
     it('should return false if item string dose not contains letters numbers.', () => {
-        expect(alpha_num('alpha')).to.equal(false);
+        expect(alpha_num('alpha')).to.be.false;
     });
 });
 
@@ -55,7 +55,7 @@ describe("Testing array rule", () => {
     });
 
     it('should return false if item is not array.', () => {
-        expect(array('string')).to.equal(false);
+        expect(array('string')).to.be.false;
     });
 });
 
@@ -65,7 +65,7 @@ describe("Testing before rule", () => {
     });
 
     it('should return true if item is date not before other date.', () => {
-        expect(before('2020/01/20', '2020/05/01')).to.equal(false);
+        expect(before('2020/01/20', '2020/05/01')).to.be.false;
     });
 });
 
@@ -75,7 +75,7 @@ describe("Testing boolean rule", () => {
     });
 
     it('should return false if item is not boolean.', () => {
-        expect(boolean('string')).to.equal(false);
+        expect(boolean('string')).to.be.false;
     });
 });
 
@@ -95,7 +95,7 @@ describe("Testing email rule", () => {
     });
 
     it('should return false if item is not a valid email.', () => {
-        expect(email('number')).to.equal(false);
+        expect(email('number')).to.be.false;
     });
 });
 
@@ -105,7 +105,7 @@ describe("Testing date rule", () => {
     });
 
     it('should return false if item is not date.', () => {
-        expect(date('string')).to.equal(false);
+        expect(date('string')).to.be.false;
     });
 });
 
@@ -115,7 +115,7 @@ describe("Testing max rule", () => {
     });
 
     it('should return false if item value is more than the maximum.', () => {
-        expect(max(5, 3)).to.equal(false);
+        expect(max(5, 3)).to.be.false;
     });
 });
 
@@ -125,7 +125,7 @@ describe("Testing min rule", () => {
     });
 
     it('should return false if item value is less than the minimum.', () => {
-        expect(min(5, 10)).to.equal(false);
+        expect(min(5, 10)).to.be.false;
     });
 });
 
@@ -135,7 +135,7 @@ describe("Testing missing rule", () => {
     });
 
     it('should return false if item is existed in the request body .', () => {
-        expect(missing(body['string'])).to.equal(false);
+        expect(missing(body['string'])).to.be.false;
     });
 });
 
@@ -145,7 +145,7 @@ describe("Testing missing_if rule", () => {
     });
 
     it('should return false if item is exited in request body and the condition is met.', () => {
-        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,ahmed')).to.equal(false);
+        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,ahmed')).to.be.false;
     });
 
     it('should return true if item is existed in request body but the condition did not met.', () => {
@@ -159,11 +159,11 @@ describe("Testing missing_unless rule", () => {
     });
 
     it('should return false if item is exited in request body and the condition is met.', () => {
-        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.be.false;
     });
 
     it('should return false if item is existed in request body but the condition did not met.', () => {
-        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.be.false;
     });
 });
 
@@ -173,7 +173,7 @@ describe("Testing not_in rule", () => {
     });
 
     it('should return false if item value is in the list of values.', () => {
-        expect(not_in('Jane', ['Jane', 'Doe'])).to.equal(false);
+        expect(not_in('Jane', ['Jane', 'Doe'])).to.be.false;
     });
 });
 
@@ -187,7 +187,7 @@ describe("Testing number rule", () => {
     });
 
     it('should return false if item is not number.', () => {
-        expect(number('string')).to.equal(false);
+        expect(number('string')).to.be.false;
     });
 });
 
@@ -197,7 +197,7 @@ describe("Testing starts_with rule", () => {
     });
 
     it('should return false if item value is not start with the specified.', () => {
-        expect(starts_with('string', 'tn')).to.equal(false);
+        expect(starts_with('string', 'tn')).to.be.false;
     });
 });
 
@@ -207,7 +207,7 @@ describe("Testing ends_with rule", () => {
     });
 
     it('should return false if item value is not end with the specified.', () => {
-        expect(ends_with('string', 'tn')).to.equal(false);
+        expect(ends_with('string', 'tn')).to.be.false;
     });
 });
 
@@ -217,7 +217,7 @@ describe("Testing regx rule", () => {
     });
 
     it('should return false if item value didn\'t match the pattern.', () => {
-        expect(regex('string', '[A-Z]')).to.equal(false);
+        expect(regex('string', '[A-Z]')).to.be.false;
     });
 });
 
@@ -227,7 +227,7 @@ describe("Testing required rule", () => {
     });
 
     it("should return false if item not exists in request body", () => {
-        expect(required('')).to.equal(false);
+        expect(required('')).to.be.false;
     });
 });
 
@@ -241,7 +241,7 @@ describe("Testing required_if rule", () => {
     });
 
     it('should return false if the item is not exist and the requirement condition is met .', () => {
-        expect(required_if('', {name: 'ahmed'}, 'name,ahmed')).to.equal(false);
+        expect(required_if('', {name: 'ahmed'}, 'name,ahmed')).to.be.false;
     });
 
     it('should return break if the item is not exist and the requirement condition is not met .', () => {
@@ -263,7 +263,7 @@ describe("Testing required_unless rule", () => {
     });
 
     it('should return false if the item is not exist and the requirement condition is not met .', () => {
-        expect(required_unless('', {name: 'ahmed'}, 'name,mohamed')).to.equal(false);
+        expect(required_unless('', {name: 'ahmed'}, 'name,mohamed')).to.be.false;
     });
 });
 
@@ -281,7 +281,7 @@ describe("Testing required_with rule", () => {
     });
 
     it('should return false if the fields are in the request body .', () => {
-        expect(required_with('', {name: 'ahmed', age: 30}, 'age')).to.equal(false);
+        expect(required_with('', {name: 'ahmed', age: 30}, 'age')).to.be.false;
     });
 });
 
@@ -295,7 +295,7 @@ describe("Testing required_with_all rule", () => {
     });
 
     it('should return false if the fields are in the request body .', () => {
-        expect(required_with_all('', {name: 'ahmed', age: 30}, 'name,age')).to.equal(false);
+        expect(required_with_all('', {name: 'ahmed', age: 30}, 'name,age')).to.be.false;
     });
 });
 
@@ -313,7 +313,7 @@ describe("Testing required_without rule", () => {
     });
 
     it('should return false if one of the fields are in the request body .', () => {
-        expect(required_without('', {name: 'ahmed', age: 30}, 'age')).to.equal(false);
+        expect(required_without('', {name: 'ahmed', age: 30}, 'age')).to.be.false;
     });
 });
 
@@ -323,7 +323,7 @@ describe("Testing required_without_all rule", () => {
     });
 
     it('should return break if all of the fields are not in the request body .', () => {
-        expect(required_without_all('', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(false);
+        expect(required_without_all('', {name: 'ahmed', age: 30}, 'birthdate')).to.be.false;
     });
 
     it('should return break if the one of the fields is not empty.', () => {
@@ -331,7 +331,7 @@ describe("Testing required_without_all rule", () => {
     });
 
     it('should return false if one of the fields are in the request body .', () => {
-        expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal(false);
+        expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.be.false;
     });
 });
 
@@ -341,7 +341,7 @@ describe("Testing string rule", () => {
     });
 
     it('should return false if item is not string.', () => {
-        expect(string(855)).to.equal(false);
+        expect(string(855)).to.be.false;
     });
 });
 
@@ -351,6 +351,6 @@ describe("Testing url rule", () => {
     });
 
     it('should return false if item is not a valid url.', () => {
-        expect(url('string')).to.equal(false);
+        expect(url('string')).to.be.false;
     });
 });
