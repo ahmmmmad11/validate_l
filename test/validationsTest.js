@@ -21,7 +21,7 @@ const body = {
 
 describe("Testing after rule", () => {
     it('should return true if item is date after other date.', () => {
-        expect(after('2020/01/20', '2020/02/20')).to.equal(true);
+        expect(after('2020/01/20', '2020/02/20')).to.be.true;
     });
 
     it('should return true if item is date not after other date.', () => {
@@ -31,7 +31,7 @@ describe("Testing after rule", () => {
 
 describe("Testing alpha rule", () => {
     it('should return true if item string contains only letters.', () => {
-        expect(alpha('string')).to.equal(true);
+        expect(alpha('string')).to.be.true;
     });
 
     it('should return false if item string contains numbers.', () => {
@@ -41,7 +41,7 @@ describe("Testing alpha rule", () => {
 
 describe("Testing alpha num rule", () => {
     it('should return true if item string contains letters numbers.', () => {
-        expect(alpha_num('string808')).to.equal(true);
+        expect(alpha_num('string808')).to.be.true;
     });
 
     it('should return false if item string dose not contains letters numbers.', () => {
@@ -51,7 +51,7 @@ describe("Testing alpha num rule", () => {
 
 describe("Testing array rule", () => {
     it('should return true if item is array.', () => {
-        expect(array(['1', '2'])).to.equal(true);
+        expect(array(['1', '2'])).to.be.true;
     });
 
     it('should return false if item is not array.', () => {
@@ -61,7 +61,7 @@ describe("Testing array rule", () => {
 
 describe("Testing before rule", () => {
     it('should return true if item is date before other date.', () => {
-        expect(before('2020/01/20', '2020/01/01')).to.equal(true);
+        expect(before('2020/01/20', '2020/01/01')).to.be.true;
     });
 
     it('should return true if item is date not before other date.', () => {
@@ -71,7 +71,7 @@ describe("Testing before rule", () => {
 
 describe("Testing boolean rule", () => {
     it('should return true if item is boolean.', () => {
-        expect(boolean(false)).to.equal(true);
+        expect(boolean(false)).to.be.true;
     });
 
     it('should return false if item is not boolean.', () => {
@@ -91,7 +91,7 @@ describe("Testing confirmed rule", () => {
 
 describe("Testing email rule", () => {
     it('should return true if item is a valid email.', () => {
-        expect(email('email@e.com')).to.equal(true);
+        expect(email('email@e.com')).to.be.true;
     });
 
     it('should return false if item is not a valid email.', () => {
@@ -101,7 +101,7 @@ describe("Testing email rule", () => {
 
 describe("Testing date rule", () => {
     it('should return true if item is date.', () => {
-        expect(date('2020/01/20')).to.equal(true);
+        expect(date('2020/01/20')).to.be.true;
     });
 
     it('should return false if item is not date.', () => {
@@ -111,7 +111,7 @@ describe("Testing date rule", () => {
 
 describe("Testing max rule", () => {
     it('should return true if item value is less than the maximum.', () => {
-        expect(max(5, 10)).to.equal(true);
+        expect(max(5, 10)).to.be.true;
     });
 
     it('should return false if item value is more than the maximum.', () => {
@@ -121,7 +121,7 @@ describe("Testing max rule", () => {
 
 describe("Testing min rule", () => {
     it('should return true if item value is more than the minimum.', () => {
-        expect(min(5, 3)).to.equal(true);
+        expect(min(5, 3)).to.be.true;
     });
 
     it('should return false if item value is less than the minimum.', () => {
@@ -131,7 +131,7 @@ describe("Testing min rule", () => {
 
 describe("Testing missing rule", () => {
     it('should return true if item is missing in.', () => {
-        expect(missing(body['foo'])).to.equal(true);
+        expect(missing(body['foo'])).to.be.true;
     });
 
     it('should return false if item is existed in the request body .', () => {
@@ -149,7 +149,7 @@ describe("Testing missing_if rule", () => {
     });
 
     it('should return true if item is existed in request body but the condition did not met.', () => {
-        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.be.true;
     });
 });
 
@@ -169,7 +169,7 @@ describe("Testing missing_unless rule", () => {
 
 describe("Testing not_in rule", () => {
     it('should return true if item value is in not the list of values.', () => {
-        expect(not_in('Jane', ['Jon', 'Doe'])).to.equal(true);
+        expect(not_in('Jane', ['Jon', 'Doe'])).to.be.true;
     });
 
     it('should return false if item value is in the list of values.', () => {
@@ -179,11 +179,11 @@ describe("Testing not_in rule", () => {
 
 describe("Testing number rule", () => {
     it('should return true if item is number.', () => {
-        expect(number(800)).to.equal(true);
+        expect(number(800)).to.be.true;
     });
 
     it('should return true if item is number.', () => {
-        expect(number(3.2)).to.equal(true);
+        expect(number(3.2)).to.be.true;
     });
 
     it('should return false if item is not number.', () => {
@@ -193,7 +193,7 @@ describe("Testing number rule", () => {
 
 describe("Testing starts_with rule", () => {
     it('should return true if item value is start with the specified.', () => {
-        expect(starts_with('string', 'st')).to.equal(true);
+        expect(starts_with('string', 'st')).to.be.true;
     });
 
     it('should return false if item value is not start with the specified.', () => {
@@ -203,7 +203,7 @@ describe("Testing starts_with rule", () => {
 
 describe("Testing ends_with rule", () => {
     it('should return true if item value is end with the specified.', () => {
-        expect(ends_with('string', 'ng')).to.equal(true);
+        expect(ends_with('string', 'ng')).to.be.true;
     });
 
     it('should return false if item value is not end with the specified.', () => {
@@ -213,7 +213,7 @@ describe("Testing ends_with rule", () => {
 
 describe("Testing regx rule", () => {
     it('should return true if item value matched the pattern.', () => {
-        expect(regex('string', '[a-z]')).to.equal(true);
+        expect(regex('string', '[a-z]')).to.be.true;
     });
 
     it('should return false if item value didn\'t match the pattern.', () => {
@@ -223,7 +223,7 @@ describe("Testing regx rule", () => {
 
 describe("Testing required rule", () => {
     it("should return true if item exists in request body", () => {
-        expect(required('name')).to.equal(true);
+        expect(required('name')).to.be.true;
     });
 
     it("should return false if item not exists in request body", () => {
@@ -233,11 +233,11 @@ describe("Testing required rule", () => {
 
 describe("Testing required_if rule", () => {
     it('should return true if the item is exist and the requirement condition is met .', () => {
-        expect(required_if('any', {name: 'ahmed'}, 'name,ahmed')).to.equal(true);
+        expect(required_if('any', {name: 'ahmed'}, 'name,ahmed')).to.be.true;
     });
 
     it('should return true if the item is exist and the requirement condition is met .', () => {
-        expect(required_if('any', {name: 'ahmed'}, 'name')).to.equal(true);
+        expect(required_if('any', {name: 'ahmed'}, 'name')).to.be.true;
     });
 
     it('should return false if the item is not exist and the requirement condition is met .', () => {
@@ -251,7 +251,7 @@ describe("Testing required_if rule", () => {
 
 describe("Testing required_unless rule", () => {
     it('should return true if the item is exist and the requirement condition is met .', () => {
-        expect(required_unless('any', {name: 'mohamed'}, 'name,ahmed')).to.equal(true);
+        expect(required_unless('any', {name: 'mohamed'}, 'name,ahmed')).to.be.true;
     });
 
     it('should return break if the item is exist and the requirement condition is met .', () => {
@@ -269,7 +269,7 @@ describe("Testing required_unless rule", () => {
 
 describe("Testing required_with rule", () => {
     it('should return true if one or more of the fields in the request body .', () => {
-        expect(required_with('any', {name: 'ahmed', age: 30}, 'name')).to.equal(true);
+        expect(required_with('any', {name: 'ahmed', age: 30}, 'name')).to.be.true;
     });
 
     it('should return break if all of fields are not in the request body .', () => {
@@ -287,7 +287,7 @@ describe("Testing required_with rule", () => {
 
 describe("Testing required_with_all rule", () => {
     it('should return true if all of the fields in the request body .', () => {
-        expect(required_with_all('any', {name: 'ahmed', age: 30}, 'name,age')).to.equal(true);
+        expect(required_with_all('any', {name: 'ahmed', age: 30}, 'name,age')).to.be.true;
     });
 
     it('should return break if any of the specified fields are not in the request body .', () => {
@@ -301,7 +301,7 @@ describe("Testing required_with_all rule", () => {
 
 describe("Testing required_without rule", () => {
     it('should return true if one or more of the fields are not in the request body .', () => {
-        expect(required_without('any', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(true);
+        expect(required_without('any', {name: 'ahmed', age: 30}, 'birthdate')).to.be.true;
     });
 
     it('should return break if one of the fields are not in the request body .', () => {
@@ -319,7 +319,7 @@ describe("Testing required_without rule", () => {
 
 describe("Testing required_without_all rule", () => {
     it('should return true if item is exists.', () => {
-        expect(required_without_all('any', {name: 'ahmed', age: 30}, 'birthdate')).to.equal(true);
+        expect(required_without_all('any', {name: 'ahmed', age: 30}, 'birthdate')).to.be.true;
     });
 
     it('should return break if all of the fields are not in the request body .', () => {
@@ -337,7 +337,7 @@ describe("Testing required_without_all rule", () => {
 
 describe("Testing string rule", () => {
     it('should return true if item is string.', () => {
-        expect(string('string')).to.equal(true);
+        expect(string('string')).to.be.true;
     });
 
     it('should return false if item is not string.', () => {
@@ -347,7 +347,7 @@ describe("Testing string rule", () => {
 
 describe("Testing url rule", () => {
     it('should return true if item is a valid url.', () => {
-        expect(url('https://www.google.com')).to.equal(true);
+        expect(url('https://www.google.com')).to.be.true;
     });
 
     it('should return false if item is not a valid url.', () => {
