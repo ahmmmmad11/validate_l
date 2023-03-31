@@ -19,23 +19,13 @@ const body = {
     password_confirmation: '12345678'
 };
 
-describe("Testing required rule", () => {
-    it("should return true if item exists in request body", () => {
-        expect(required('name')).to.equal(true);
+describe("Testing after rule", () => {
+    it('should return true if item is date after other date.', () => {
+        expect(after('2020/01/20', '2020/02/20')).to.equal(true);
     });
 
-    it("should return false if item not exists in request body", () => {
-        expect(required('')).to.equal(false);
-    });
-});
-
-describe("Testing string rule", () => {
-    it('should return true if item is string.', () => {
-        expect(string('string')).to.equal(true);
-    });
-
-    it('should return false if item is not string.', () => {
-        expect(string(855)).to.equal(false);
+    it('should return true if item is date not after other date.', () => {
+        expect(after('2020/01/20', '2020/01/01')).to.equal(false);
     });
 });
 
@@ -59,6 +49,46 @@ describe("Testing alpha num rule", () => {
     });
 });
 
+describe("Testing array rule", () => {
+    it('should return true if item is array.', () => {
+        expect(array(['1', '2'])).to.equal(true);
+    });
+
+    it('should return false if item is not array.', () => {
+        expect(array('string')).to.equal(false);
+    });
+});
+
+describe("Testing before rule", () => {
+    it('should return true if item is date before other date.', () => {
+        expect(before('2020/01/20', '2020/01/01')).to.equal(true);
+    });
+
+    it('should return true if item is date not before other date.', () => {
+        expect(before('2020/01/20', '2020/05/01')).to.equal(false);
+    });
+});
+
+describe("Testing boolean rule", () => {
+    it('should return true if item is boolean.', () => {
+        expect(boolean(false)).to.equal(true);
+    });
+
+    it('should return false if item is not boolean.', () => {
+        expect(boolean('string')).to.equal(false);
+    });
+});
+
+describe("Testing confirmed rule", () => {
+    it('should return true if item value is confirmed.', () => {
+        expect(confirmed(body['password'], 'password', body)).to.true;
+    });
+
+    it('should return false if item value is not confirmed.', () => {
+        expect(confirmed(body['name'], 'name', body)).to.false;
+    });
+});
+
 describe("Testing email rule", () => {
     it('should return true if item is a valid email.', () => {
         expect(email('email@e.com')).to.equal(true);
@@ -66,6 +96,84 @@ describe("Testing email rule", () => {
 
     it('should return false if item is not a valid email.', () => {
         expect(email('number')).to.equal(false);
+    });
+});
+
+describe("Testing date rule", () => {
+    it('should return true if item is date.', () => {
+        expect(date('2020/01/20')).to.equal(true);
+    });
+
+    it('should return false if item is not date.', () => {
+        expect(date('string')).to.equal(false);
+    });
+});
+
+describe("Testing max rule", () => {
+    it('should return true if item value is less than the maximum.', () => {
+        expect(max(5, 10)).to.equal(true);
+    });
+
+    it('should return false if item value is more than the maximum.', () => {
+        expect(max(5, 3)).to.equal(false);
+    });
+});
+
+describe("Testing min rule", () => {
+    it('should return true if item value is more than the minimum.', () => {
+        expect(min(5, 3)).to.equal(true);
+    });
+
+    it('should return false if item value is less than the minimum.', () => {
+        expect(min(5, 10)).to.equal(false);
+    });
+});
+
+describe("Testing missing rule", () => {
+    it('should return true if item is missing in.', () => {
+        expect(missing(body['foo'])).to.equal(true);
+    });
+
+    it('should return false if item is existed in the request body .', () => {
+        expect(missing(body['string'])).to.equal(false);
+    });
+});
+
+describe("Testing missing_if rule", () => {
+    it('should return break if item is missing in.', () => {
+        expect(missing_if(body['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
+    });
+
+    it('should return false if item is exited in request body and the condition is met.', () => {
+        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,ahmed')).to.equal(false);
+    });
+
+    it('should return true if item is existed in request body but the condition did not met.', () => {
+        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+    });
+});
+
+describe("Testing missing_unless rule", () => {
+    it('should return break if item is missing in.', () => {
+        expect(missing_unless(body['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
+    });
+
+    it('should return false if item is exited in request body and the condition is met.', () => {
+        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+    });
+
+    it('should return false if item is existed in request body but the condition did not met.', () => {
+        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
+    });
+});
+
+describe("Testing not_in rule", () => {
+    it('should return true if item value is in not the list of values.', () => {
+        expect(not_in('Jane', ['Jon', 'Doe'])).to.equal(true);
+    });
+
+    it('should return false if item value is in the list of values.', () => {
+        expect(not_in('Jane', ['Jane', 'Doe'])).to.equal(false);
     });
 });
 
@@ -80,96 +188,6 @@ describe("Testing number rule", () => {
 
     it('should return false if item is not number.', () => {
         expect(number('string')).to.equal(false);
-    });
-});
-
-describe("Testing boolean rule", () => {
-    it('should return true if item is boolean.', () => {
-        expect(boolean(false)).to.equal(true);
-    });
-
-    it('should return false if item is not boolean.', () => {
-        expect(boolean('string')).to.equal(false);
-    });
-});
-
-describe("Testing date rule", () => {
-    it('should return true if item is date.', () => {
-        expect(date('2020/01/20')).to.equal(true);
-    });
-
-    it('should return false if item is not date.', () => {
-        expect(date('string')).to.equal(false);
-    });
-});
-
-describe("Testing after rule", () => {
-    it('should return true if item is date after other date.', () => {
-        expect(after('2020/01/20', '2020/02/20')).to.equal(true);
-    });
-
-    it('should return true if item is date not after other date.', () => {
-        expect(after('2020/01/20', '2020/01/01')).to.equal(false);
-    });
-});
-
-describe("Testing before rule", () => {
-    it('should return true if item is date before other date.', () => {
-        expect(before('2020/01/20', '2020/01/01')).to.equal(true);
-    });
-
-    it('should return true if item is date not before other date.', () => {
-        expect(before('2020/01/20', '2020/05/01')).to.equal(false);
-    });
-});
-
-describe("Testing array rule", () => {
-    it('should return true if item is array.', () => {
-        expect(array(['1', '2'])).to.equal(true);
-    });
-
-    it('should return false if item is not array.', () => {
-        expect(array('string')).to.equal(false);
-    });
-});
-
-describe("Testing url rule", () => {
-    it('should return true if item is a valid url.', () => {
-        expect(url('https://www.google.com')).to.equal(true);
-    });
-
-    it('should return false if item is not a valid url.', () => {
-        expect(url('string')).to.equal(false);
-    });
-});
-
-describe("Testing min rule", () => {
-    it('should return true if item value is more than the minimum.', () => {
-        expect(min(5, 3)).to.equal(true);
-    });
-
-    it('should return false if item value is less than the minimum.', () => {
-        expect(min(5, 10)).to.equal(false);
-    });
-});
-
-describe("Testing max rule", () => {
-    it('should return true if item value is less than the maximum.', () => {
-        expect(max(5, 10)).to.equal(true);
-    });
-
-    it('should return false if item value is more than the maximum.', () => {
-        expect(max(5, 3)).to.equal(false);
-    });
-});
-
-describe("Testing not_in rule", () => {
-    it('should return true if item value is in not the list of values.', () => {
-        expect(not_in('Jane', ['Jon', 'Doe'])).to.equal(true);
-    });
-
-    it('should return false if item value is in the list of values.', () => {
-        expect(not_in('Jane', ['Jane', 'Doe'])).to.equal(false);
     });
 });
 
@@ -200,6 +218,16 @@ describe("Testing regx rule", () => {
 
     it('should return false if item value didn\'t match the pattern.', () => {
         expect(regex('string', '[A-Z]')).to.equal(false);
+    });
+});
+
+describe("Testing required rule", () => {
+    it("should return true if item exists in request body", () => {
+        expect(required('name')).to.equal(true);
+    });
+
+    it("should return false if item not exists in request body", () => {
+        expect(required('')).to.equal(false);
     });
 });
 
@@ -307,50 +335,22 @@ describe("Testing required_without_all rule", () => {
     });
 });
 
-describe("Testing missing rule", () => {
-    it('should return true if item is missing in.', () => {
-        expect(missing(body['foo'])).to.equal(true);
+describe("Testing string rule", () => {
+    it('should return true if item is string.', () => {
+        expect(string('string')).to.equal(true);
     });
 
-    it('should return false if item is existed in the request body .', () => {
-        expect(missing(body['string'])).to.equal(false);
-    });
-});
-
-describe("Testing missing_if rule", () => {
-    it('should return break if item is missing in.', () => {
-        expect(missing_if(body['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
-    });
-
-    it('should return false if item is exited in request body and the condition is met.', () => {
-        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,ahmed')).to.equal(false);
-    });
-
-    it('should return true if item is existed in request body but the condition did not met.', () => {
-        expect(missing_if(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(true);
+    it('should return false if item is not string.', () => {
+        expect(string(855)).to.equal(false);
     });
 });
 
-describe("Testing missing_unless rule", () => {
-    it('should return break if item is missing in.', () => {
-        expect(missing_unless(body['foo'], {name: 'ahmed', age: ''}, 'birthdate,age')).to.equal('break');
+describe("Testing url rule", () => {
+    it('should return true if item is a valid url.', () => {
+        expect(url('https://www.google.com')).to.equal(true);
     });
 
-    it('should return false if item is exited in request body and the condition is met.', () => {
-        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
-    });
-
-    it('should return false if item is existed in request body but the condition did not met.', () => {
-        expect(missing_unless(body['string'], {name: 'ahmed', age: ''}, 'name,mohamed')).to.equal(false);
-    });
-});
-
-describe("Testing confirmed rule", () => {
-    it('should return true if item value is confirmed.', () => {
-        expect(confirmed(body['password'], 'password', body)).to.true;
-    });
-
-    it('should return false if item value is not confirmed.', () => {
-        expect(confirmed(body['name'], 'name', body)).to.false;
+    it('should return false if item is not a valid url.', () => {
+        expect(url('string')).to.equal(false);
     });
 });
