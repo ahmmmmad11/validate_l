@@ -11,7 +11,7 @@ describe("Testing check js", () => {
             number: 5,
             float: 5.6,
             array: [1, 2],
-            date: '2020/01/20',
+            date: '2019/01/20',
             url: 'https://www.geeksforgeeks.org/',
             email: 'jane@example.com',
             password: '12345678',
