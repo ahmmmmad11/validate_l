@@ -8,7 +8,7 @@ const emptyValue  = (val) => {
 
 module.exports = {
     after: (item, compared) => {
-        return Date.parse(item) <= Date.parse(compared);
+        return Date.parse(item) >= Date.parse(compared);
     },
 
     alpha: (item) => {
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     before: (item, compared) => {
-        return Date.parse(item) >= Date.parse(compared);
+        return Date.parse(item) <= Date.parse(compared);
     },
 
     boolean: (item) => {
