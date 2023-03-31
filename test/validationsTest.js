@@ -21,11 +21,11 @@ const body = {
 
 describe("Testing after rule", () => {
     it('should return true if item is date after other date.', () => {
-        expect(after('2020/01/20', '2020/02/20')).to.be.true;
+        expect(after('2020/03/20', '2020/02/20')).to.be.true;
     });
 
     it('should return true if item is date not after other date.', () => {
-        expect(after('2020/01/20', '2020/01/01')).to.be.false;
+        expect(after('2020/01/20', '2020/03/01')).to.be.false;
     });
 });
 
@@ -61,11 +61,11 @@ describe("Testing array rule", () => {
 
 describe("Testing before rule", () => {
     it('should return true if item is date before other date.', () => {
-        expect(before('2020/01/20', '2020/01/01')).to.be.true;
+        expect(before('2020/01/20', '2020/01/030')).to.be.true;
     });
 
     it('should return true if item is date not before other date.', () => {
-        expect(before('2020/01/20', '2020/05/01')).to.be.false;
+        expect(before('2020/06/20', '2020/05/01')).to.be.false;
     });
 });
 
@@ -188,16 +188,6 @@ describe("Testing number rule", () => {
 
     it('should return false if item is not number.', () => {
         expect(number('string')).to.be.false;
-    });
-});
-
-describe("Testing starts_with rule", () => {
-    it('should return true if item value is start with the specified.', () => {
-        expect(starts_with('string', 'st')).to.be.true;
-    });
-
-    it('should return false if item value is not start with the specified.', () => {
-        expect(starts_with('string', 'tn')).to.be.false;
     });
 });
 
@@ -332,6 +322,16 @@ describe("Testing required_without_all rule", () => {
 
     it('should return false if one of the fields are in the request body .', () => {
         expect(required_without_all('', {name: 'ahmed', age: ''}, 'birthdate,age')).to.be.false;
+    });
+});
+
+describe("Testing starts_with rule", () => {
+    it('should return true if item value is start with the specified.', () => {
+        expect(starts_with('string', 'st')).to.be.true;
+    });
+
+    it('should return false if item value is not start with the specified.', () => {
+        expect(starts_with('string', 'tn')).to.be.false;
     });
 });
 
