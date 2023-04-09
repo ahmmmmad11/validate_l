@@ -1,4 +1,3 @@
-const path = require('path')
 const messages = require("./messages");
 
 //determine if a field has an alias
@@ -15,16 +14,16 @@ const value = (message, val) => {
 }
 
 module.exports = (conf, rule, item, extra = {}) => {
-    let localization = null;
+    let localization;
 
     try {
-        localization = require(path.resolve(`lang/validations/${conf.lang}.js`));
+        localization = require(`lang/${conf.lang}/validations.js`);
     }
     catch (e) {
         localization = null
     }
 
-    let message = '';
+    let message;
 
     //take validation messages from the built-in messages.js file inside the package
     message = messages[rule].replace(':item', field_name(item, conf.fields_alias));
@@ -32,10 +31,10 @@ module.exports = (conf, rule, item, extra = {}) => {
 
     //take validation messages from the localization files
     if (localization != null && typeof(localization) == 'object') {
-        message = localization.messages[rule].replace(':item', field_name(item, localization.fields));
+        message = localization["messages"][rule].replace(':item', field_name(item, localization["fields"]));
         message = value(message, extra);
     }
-    
+
     //check if a developer added another message for the validation
     //if so change the default message with altered one
     if (`${item}.${rule}` in conf.message_alias) {
